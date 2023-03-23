@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.common.exceptions import NoSuchElementException
 from time import sleep, time
 
 import env
@@ -31,9 +32,9 @@ if __name__ == '__main__':
         driver.get(env.URL_LOGIN_GIT)
         wait_120.until(EC.visibility_of_element_located((By.ID, 'login_field')))
         
-        driver.find_element_by_id('login_field').send_keys(env.USER_GIT)
-        driver.find_element_by_id('password').send_keys(env.PASS_GIT)
-        driver.find_element_by_css_selector('[type="submit"]').click()
+        driver.find_element(By.ID, 'login_field').send_keys(env.USER_GIT)
+        driver.find_element(By.ID, 'password').send_keys(env.PASS_GIT)
+        driver.find_element(By.CSS_SELECTOR, '[type="submit"]').click()
 
         wait_30.until(EC.presence_of_element_located((By.CSS_SELECTOR, '[href="https://github.com/"]')))
         
@@ -42,14 +43,18 @@ if __name__ == '__main__':
         loop = True
         while(loop):
             print('Olhando página ' + str(page))
-            driver.get(env.URL_GIT(page))
+            driver.get(env.URL_GIT(env.USER_GIT, page))
             wait_30.until(EC.presence_of_element_located((By.ID, 'your-repos-filter')))
 
+            sleep(2)
             try:
-                driver.find_element_by_css_selector(env.EL_END)
+                driver.find_element(By.CSS_SELECTOR, env.EL_END)
                 loop = False
-            except:
-                repos = driver.find_elements_by_css_selector(env.EL_REPOS)
+            except NoSuchElementException:
+                print('Ainda não cheguei no fim')
+            
+            if loop :
+                repos = driver.find_elements(By.CSS_SELECTOR, env.EL_REPOS)
 
                 for index, repo in enumerate(repos):
                     nome_repo = repo.text

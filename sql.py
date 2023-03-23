@@ -6,7 +6,7 @@ import env as v
 def query(query):
     results = []
     try:
-        con = mysql.connector.connect(host=v.DB_HOST, database=v.DB_DATABASE, user=v.DB_USER, password=v.DB_PASS)
+        con = mysql.connector.connect(host=v.DB_HOST, database=v.DB_DATABASE, user=v.DB_USER, password=v.DB_PASS, port=v.DB_PORT)
         cursor = con.cursor()
         cursor.execute(query)
         results = cursor.fetchall()
@@ -19,7 +19,7 @@ def query(query):
     return results
 
 def execute_query(execute):
-    con = mysql.connector.connect(host=v.DB_HOST, database=v.DB_DATABASE, user=v.DB_USER, password=v.DB_PASS)
+    con = mysql.connector.connect(host=v.DB_HOST, database=v.DB_DATABASE, user=v.DB_USER, password=v.DB_PASS, port=v.DB_PORT)
     cursor = con.cursor()
     try:
         cursor.execute(execute)
@@ -29,13 +29,13 @@ def execute_query(execute):
         print(f"Error: '{err}'")
 
 def get_repo_db(NOME_REPO):
-    return query(f'''SELECT * FROM ctrl_repo 
-        WHERE nome_repo = '{NOME_REPO}'
+    return query(f'''SELECT * FROM ti_git_repositorios 
+        WHERE nome_repositorio = '{NOME_REPO}'
     ''')
 
 def insert_repo_db(NOME_REPO, URL_REPO):
-    query = f'''INSERT INTO ctrl_repo 
-        (nome_repo, url_repo) VALUES 
+    query = f'''INSERT INTO ti_git_repositorios 
+        (nome_repositorio, url_repositorio) VALUES 
         ('{NOME_REPO}', '{URL_REPO}')
     '''
     print("Executando => ")
