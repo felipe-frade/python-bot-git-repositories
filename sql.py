@@ -28,15 +28,15 @@ def execute_query(execute):
     except Error as err:
         print(f"Error: '{err}'")
 
-def get_repo_db(NOME_REPO):
+def get_repo_db(nome_repositorio):
     return query(f'''SELECT * FROM ti_git_repositorios 
-        WHERE nome_repositorio = '{NOME_REPO}'
+        WHERE nome_repositorio = '{nome_repositorio}'
     ''')
 
-def insert_repo_db(NOME_REPO, URL_REPO):
+def insert_repo_db(nome_repositorio, url_repositorio):
     query = f'''INSERT INTO ti_git_repositorios 
         (nome_repositorio, url_repositorio) VALUES 
-        ('{NOME_REPO}', '{URL_REPO}')
+        ('{nome_repositorio}', '{url_repositorio}')
     '''
     print("Executando => ")
     print(query)

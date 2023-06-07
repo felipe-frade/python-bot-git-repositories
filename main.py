@@ -57,12 +57,12 @@ if __name__ == '__main__':
                 repos = driver.find_elements(By.CSS_SELECTOR, env.EL_REPOS)
 
                 for index, repo in enumerate(repos):
-                    nome_repo = repo.text
-                    url_repo = repo.get_attribute('href')
+                    nome_repositorio = repo.text
+                    url_repositorio = repo.get_attribute('href')
 
-                    dados = sql.get_repo_db(nome_repo)
+                    dados = sql.get_repo_db(nome_repositorio)
                     if(len(dados) == 0):
-                        sql.insert_repo_db(nome_repo, url_repo)
+                        sql.insert_repo_db(nome_repositorio, url_repositorio)
                     else:
                         print('Repositório já existe')
 
